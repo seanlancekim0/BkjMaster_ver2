@@ -32,22 +32,19 @@ public class Main {
         }
 //        System.out.println();
 
-        BSearchIter();
+//        BSearchIter();
+        BSearchRec();
         System.out.print(mid);
 
     }
 
     private static void BSearchRec() {
-        System.out.println("min: " + min + " max: " + max);
         long result = 0;
         mid = (min + max) / 2;
-        System.out.println("mid: "+mid);
         for (int a: list) {
             int diff = a - mid;
             if (diff > 0) result += diff;
         }
-        System.out.println("result: " + result);
-        System.out.println();
         if (result == M) return;
         if (result > M) {
             min = mid + 1;
@@ -63,7 +60,9 @@ public class Main {
 
         // 수정된 부분: 재귀 호출 대신 반복문을 사용하여 이진 탐색을 수행
         while (min <= max) {
+            System.out.println("min: " + Main.min + " max: " + Main.max);
             mid = (min + max) / 2;
+            System.out.println("mid: "+mid);
             result = 0;
 
             for (int a : list) {
@@ -71,6 +70,8 @@ public class Main {
                 if (diff > 0) result += diff;
             }
 
+            System.out.println("result: " + result);
+            System.out.println();
             if (result == M) return;
             else if (result > M) {
                 min = mid + 1;
