@@ -5,41 +5,56 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
+    static int T, M, N, K;
+    static boolean[][] fields;
+    static BufferedReader br;
+    static StringTokenizer st;
+    static StringBuilder result;
+
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
+        br = new BufferedReader(new InputStreamReader(System.in));
+        T = Integer.parseInt(br.readLine());
+        result = new StringBuilder();
 
-        int T = Integer.parseInt(br.readLine());
         for (int i = 0; i < T; i++) {
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            int N = Integer.parseInt(st.nextToken()), M = Integer.parseInt(st.nextToken());
-            int[][] arr = new int[N][M];
+            st = new StringTokenizer(br.readLine());
+            M = Integer.parseInt(st.nextToken());
+            N = Integer.parseInt(st.nextToken());
+            K = Integer.parseInt(st.nextToken());
+            fields = new boolean[N][M];
 
-            int K = Integer.parseInt(st.nextToken());
             for (int j = 0; j < K; j++) {
                 st = new StringTokenizer(br.readLine());
-                arr[Integer.parseInt(st.nextToken())][Integer.parseInt(st.nextToken())] = 1;
+                int m = Integer.parseInt(st.nextToken());
+                int n = Integer.parseInt(st.nextToken());
+                fields[n][m] = true;
             }
 
-            int count = 0;
-            for (int k = 0; k < N * M; k++) {
-                if(arr[k / M][k % M] == 1) {
-                    count++;
-                    arr = arrCheck(arr, k / M, k % M);
-                }
-            }
-
-            sb.append(count).append("\n");
+            execute();
         }
-        System.out.println(sb);
+
+        System.out.print(result);
     }
 
-    private static int[][] arrCheck(int[][] arr, int x, int y) {
-        arr[x][y] = -1;
-        if(x > 0 && arr[x - 1][y] == 1) arr = arrCheck(arr, x - 1, y);
-        if(x < arr.length - 1 && arr[x + 1][y] == 1) arr = arrCheck(arr, x + 1, y);
-        if(y > 0 && arr[x][y - 1] == 1) arr = arrCheck(arr, x, y - 1);
-        if(y< arr[0].length - 1 && arr[x][y + 1] == 1) arr = arrCheck(arr, x, y + 1);
-        return arr;
+    private static void execute() throws IOException {
+        int count = 0;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                if (fields[i][j]) {
+                    count++;
+                    dfs(i, j);
+                }
+            }
+        }
+        result.append(count).append("\n");
+    }
+
+    private static void dfs(int i, int j) {
+        if (i < 0 || j < 0 || i >= N || j >= M || !fields[i][j]) return;
+        fields[i][j] = false;
+        dfs(i - 1, j);
+        dfs(i + 1, j);
+        dfs(i, j - 1);
+        dfs(i, j + 1);
     }
 }
