@@ -6,7 +6,7 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int N, M, total, count, result;
+    static int N, M, count, result;
     static int[][] field;
     static Queue<State> queue;
 
@@ -19,7 +19,7 @@ public class Main {
     private static void execute() {
         bfs();
 
-        if (total > count) result = -1;
+        if (N * M > count) result = -1;
 
         System.out.println(result);
     }
@@ -32,7 +32,7 @@ public class Main {
             field[p.i][p.j] = 1;
             result = p.day;
             count++;
-            
+
 //            print();
 
             queue.add(new State(p.i + 1, p.j, p.day + 1));
@@ -64,14 +64,13 @@ public class Main {
         M = Integer.parseInt(st.nextToken());
         N = Integer.parseInt(st.nextToken());
         field = new int[N][M];
-        total = 0;
         queue = new LinkedList<>();
 
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
             for (int j = 0; j < M; j++) {
                 int t = Integer.parseInt(st.nextToken());
-                if (t != -1) total++;
+                if (t == -1) count++;
                 field[i][j] = t;
                 if (t == 1) {
                     queue.add(new State(i, j, 0));
