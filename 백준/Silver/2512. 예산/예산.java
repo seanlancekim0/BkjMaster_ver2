@@ -19,29 +19,28 @@ public class Main {
         int mid = (min + max) / 2;
         while (min <= max) {
 //            System.out.println(min + " " + mid + " " + max);
-            int b = Budget(mid);
-            if (b < M)
+
+            if (ltBudget(mid))
                 min = mid + 1;
-            else if (b > M)
-                max = mid - 1;
-            else break;
+
+            else max = mid - 1;
             mid = (min + max) / 2;
         }
         return Math.min(budgets[N - 1], mid);
     }
 
-    private static int Budget(int mid) {
-        int b = 0;
+    private static boolean ltBudget(int mid) {
+        int cost = 0;
         for (int i = 0; i < N; i++) {
 
             if (budgets[i] < mid)
-                b += budgets[i];
+                cost += budgets[i];
 
-            else b += mid;
+            else cost += mid;
         }
-//        System.out.println(b);
+//        System.out.println(cost);
 //        System.out.println();
-        return b;
+        return cost <= M;
     }
 
     private static void init() throws IOException {
@@ -61,3 +60,4 @@ public class Main {
         max = budgets[N - 1];
     }
 }
+
